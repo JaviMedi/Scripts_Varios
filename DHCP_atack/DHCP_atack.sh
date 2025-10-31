@@ -10,17 +10,28 @@ echo "
 
 
 
-                        DHCP_Atack_ver9
+                        DHCP_Atack
                         Cortesia de Javier Medina.
 
 
 
-                        Son las 3 de la mañana y me quiero pegar un tiro.
-                        Ayuda.
+                        
 
 
 "
-echo "Para ejecutar este script necesitas ser superusuario y tener el NetworkManager desabilitado (systemctl stop NetworkManager)"
+if [ "$EUID" -ne 0 ]; then
+        echo "Para ejecutar este script necesitas ser superusuario."
+        echo "Por favor, ejecuta con: sudo $0"
+        exit 1
+fi
+
+estadoNM=$(systemctl is-active NetworkManager 2>/dev/null)
+
+if [ "$estadoNM" = "active" ]; then
+        echo "Para ejecutar este script necesitas tener el NetworkManager desabilitado (systemctl stop NetworkManager)"
+        exit 1
+fi
+
 read -p "Introduce tu targeta de red: " enp0s
 read -p "Tienes el servicio DHCP iniciado (dhcpcd $enp0s)? (S/N):  " case1
 case $case1 in
@@ -58,7 +69,7 @@ do
                 echo "
 
 
-                        Servidor DHCP original vaciado, vamos a crear uno falso?
+                        Servidor DHCP original vaciado, vamos a crear uno falso.
 
 
 
