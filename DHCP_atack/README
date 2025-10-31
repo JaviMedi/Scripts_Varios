@@ -1,0 +1,8 @@
+DHCP_atack es un script que llena las direcciones IP de un servidor DHCP y 
+crea uno falso para permitir ataques de sniffing, también se podría utilizar
+para evitar nuevas conexiones a una red.
+No es muy efficaz ya que la mayoría de servidores DHCP están protegidos frente
+a este tipo de ataques, cabe recordar que es una prueba de concepto y una herramienta
+creada con el fin de aprender.
+
+USO: sudo ./dhcp_atack.sh

@@ -32,7 +32,7 @@ if [ "$estadoNM" = "active" ]; then
         exit 1
 fi
 
-read -p "Introduce tu targeta de red: " enp0s
+read -p "Introduce tu targeta de red: " enp0s  #En un futuro añadir un if para habilitar el uso de argumentos y permitir la automatización
 read -p "Tienes el servicio DHCP iniciado (dhcpcd $enp0s)? (S/N):  " case1
 case $case1 in
         [sS][iI]|[sS])
