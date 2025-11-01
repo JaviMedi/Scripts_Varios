@@ -1,0 +1,22 @@
+#!/bin/bash
+
+IP="8.8.8.8"
+LOG="./ping_log.txt"
+TEMP=30 #Por si no le pasas argumento
+
+if [ -n "$1" ]; then #Comprueba si le has pasado argumento y lo intercambia por el temporizador
+    TEMP="$1"
+fi
+
+echo "Iniciando ping a $IP durante $TEMP segundos..."
+echo "Registro en: $LOG"
+
+RESULTADO=$(ping -i 1 -w "$TEMP" "$IP")
+PROMEDIO=$(echo "$RESULTADO" | grep 'rtt' | awk -F'/' '{print $5}')
+PERDIDOS=$(echo "$RESULTADO" | grep -oP '\d+(?=% packet loss)')
+FECHA=$(date)
+echo "Fecha $FECHA"
+echo "Tiempo promedio: ${PROMEDIO} ms"
+echo "Paquetes perdidos: ${PERDIDOS}%"
+
+echo "$FECHA | Host: $IP | Duración: ${TEMP}s | Promedio: ${PROMEDIO} ms | Perdidos: ${PERDIDOS}%" >> "$LOG"
