@@ -1,8 +1,19 @@
 #!/bin/bash
 
-IP="8.8.8.8"
+IP="8.8.8.8" #Puedes cambiar la IP si quieres hacer ping a otro host o pasarla como argumento
 LOG="./ping_log.txt"
-TEMP=30 #Por si no le pasas argumento
+TEMP=30 #Por si no le pasas segundo argumento
+
+if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$1" == "?" ]; then
+    echo "Uso: $0 [IP] [DURACIÓN_EN_SEGUNDOS]"
+    echo "Ejemplo: $0 $IP $TEMP"
+    exit 0
+fi
+
+if [ -n "$1" ]; then #Comprueba si le has pasado argumento y lo intercambia por la IP
+    IP="$1"
+    shift
+fi
 
 if [ -n "$1" ]; then #Comprueba si le has pasado argumento y lo intercambia por el temporizador
     TEMP="$1"

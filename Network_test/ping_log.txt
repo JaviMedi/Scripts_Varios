@@ -1,0 +1,2 @@
+mié 05 nov 2025 10:21:27 CET | Host: 4.4.4.4 | Duración: 10s | Promedio:  ms | Perdidos: 100%
+mié 05 nov 2025 10:23:36 CET | Host: -H | Duración: 30s | Promedio:  ms | Perdidos: %
