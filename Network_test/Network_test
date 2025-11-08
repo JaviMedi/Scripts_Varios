@@ -3,11 +3,43 @@
 IP="8.8.8.8" #Puedes cambiar la IP si quieres hacer ping a otro host o pasarla como argumento
 LOG="./ping_log.txt"
 TEMP=30 #Por si no le pasas segundo argumento
+REPETICION=false
+
+hacer_ping() {
+    RESULTADO=$(ping -i 1 -w "$TEMP" "$IP")
+    PROMEDIO=$(echo "$RESULTADO" | grep 'rtt' | awk -F'/' '{print $5}')
+    PERDIDOS=$(echo "$RESULTADO" | grep -oP '\d+(?=% packet loss)')
+    FECHA=$(date)
+    echo "Fecha $FECHA"
+    echo "Tiempo promedio: ${PROMEDIO} ms"
+    echo "Paquetes perdidos: ${PERDIDOS}%"
+
+    echo "$FECHA | Host: $IP | Duración: ${TEMP}s | Promedio: ${PROMEDIO} ms | Perdidos: ${PERDIDOS}%" >> "$LOG"
+}
+
+hacer_ping_recursivo() {
+    RESULTADO=$(ping -c 5 -i 1 "$IP" 2>/dev/null)
+    PROMEDIO=$(echo "$RESULTADO" | grep 'rtt' | awk -F'/' '{print $5}')
+    PERDIDOS=$(echo "$RESULTADO" | grep -oP '\d+(?=% packet loss)')
+    FECHA=$(date "+%Y-%m-%d %H:%M:%S")
+    echo "$FECHA | Host: $IP | Promedio: ${PROMEDIO:-N/A} ms | Perdidos: ${PERDIDOS:-N/A}%" | tee -a "$LOG"
+}
+
+ayuda() {
+    echo "Uso: $0 [IP] [DURACIÓN_EN_SEGUNDOS] | -r [IP]"
+    echo "Ejemplo 1 (30 seg): $0 8.8.8.8 30"
+    echo "Ejemplo 2 (modo repetición): $0 -r 1.1.1.1"
+    exit 0
+}
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$1" == "?" ]; then
-    echo "Uso: $0 [IP] [DURACIÓN_EN_SEGUNDOS]"
-    echo "Ejemplo: $0 $IP $TEMP"
-    exit 0
+    ayuda
+fi
+
+if [[ "$1" == "-r" ]]; then
+    REPETICION=true
+    TEMP=""
+    shift
 fi
 
 if [ -n "$1" ]; then #Comprueba si le has pasado argumento y lo intercambia por la IP
@@ -15,19 +47,24 @@ if [ -n "$1" ]; then #Comprueba si le has pasado argumento y lo intercambia por 
     shift
 fi
 
-if [ -n "$1" ]; then #Comprueba si le has pasado argumento y lo intercambia por el temporizador
+if [[ -n "$1" && $REPETICION == false ]]; then #Comprueba si le has pasado argumento y lo intercambia por el temporizador
     TEMP="$1"
 fi
 
-echo "Iniciando ping a $IP durante $TEMP segundos..."
-echo "Registro en: $LOG"
+if $REPETICION; then
+    echo "Modo repetición infinita: ping a $IP (presiona 'q' para salir)"
+    while true; do
+        hacer_ping_recursivo
+        read -t 1 -n 1 key
+        if [[ $key == "q" ]]; then
+            echo "Saliendo del modo repetición..."
+            break
+        fi
+    done
+else
+    echo "Iniciando ping a $IP durante $TEMP segundos..."
+    echo "Registro en: $LOG"
+    hacer_ping
+fi  
 
-RESULTADO=$(ping -i 1 -w "$TEMP" "$IP")
-PROMEDIO=$(echo "$RESULTADO" | grep 'rtt' | awk -F'/' '{print $5}')
-PERDIDOS=$(echo "$RESULTADO" | grep -oP '\d+(?=% packet loss)')
-FECHA=$(date)
-echo "Fecha $FECHA"
-echo "Tiempo promedio: ${PROMEDIO} ms"
-echo "Paquetes perdidos: ${PERDIDOS}%"
 
-echo "$FECHA | Host: $IP | Duración: ${TEMP}s | Promedio: ${PROMEDIO} ms | Perdidos: ${PERDIDOS}%" >> "$LOG"

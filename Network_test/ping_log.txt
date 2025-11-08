@@ -1,2 +1,12 @@
 mié 05 nov 2025 10:21:27 CET | Host: 4.4.4.4 | Duración: 10s | Promedio:  ms | Perdidos: 100%
 mié 05 nov 2025 10:23:36 CET | Host: -H | Duración: 30s | Promedio:  ms | Perdidos: %
+sáb 08 nov 2025 18:54:11 CET | Host: 8.8.8.8 | Duración: 30s | Promedio: 9.096 ms | Perdidos: 0%
+sáb 08 nov 2025 18:55:29 CET | Host: 8.8.8.8 | Duración: 1s | Promedio: 9.248 ms | Perdidos: 0%
+sáb 08 nov 2025 18:55:31 CET | Host: 8.8.8.8 | Duración: 1s | Promedio: 8.985 ms | Perdidos: 0%
+sáb 08 nov 2025 18:55:33 CET | Host: 8.8.8.8 | Duración: 1s | Promedio: 9.077 ms | Perdidos: 0%
+sáb 08 nov 2025 18:55:35 CET | Host: 8.8.8.8 | Duración: 1s | Promedio: 9.175 ms | Perdidos: 0%
+sáb 08 nov 2025 18:55:37 CET | Host: 8.8.8.8 | Duración: 1s | Promedio: 9.075 ms | Perdidos: 0%
+sáb 08 nov 2025 18:55:39 CET | Host: 8.8.8.8 | Duración: 1s | Promedio: 8.926 ms | Perdidos: 0%
+2025-11-08 19:01:30 | Host: 8.8.8.8 | Promedio: 9.234 ms | Perdidos: 0%
+2025-11-08 19:01:35 | Host: 8.8.8.8 | Promedio: 9.109 ms | Perdidos: 0%
+2025-11-08 19:01:40 | Host: 8.8.8.8 | Promedio: 8.989 ms | Perdidos: 0%

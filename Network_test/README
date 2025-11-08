@@ -1,0 +1,11 @@
+Este script en permite realizar pruebas de conectividad mediante ping y registrar los resultados en un archivo de log.  
+Puede ejecutarse durante un tiempo definido o de forma indefinida hasta que el usuario lo detenga manualmente.
+
+Realiza pings a una IP o dominio especificado.
+Registra los resultados en un archivo (`ping_log.txt`) con fecha, IP, tiempo promedio y porcentaje de pérdida.
+Modo temporizado: ejecuta el ping durante un número determinado de segundos.
+Modo repetición (`-r`): repite el ping indefinidamente hasta que el usuario presione **q**.
+
+#Uso:
+./ping_log.sh [IP] [DURACIÓN_EN_SEGUNDOS]
+./ping_log.sh -r [IP] #Para modo repetición 
