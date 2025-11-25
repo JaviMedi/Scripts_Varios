@@ -1,0 +1,12 @@
+admin
+login
+backup
+secret
+test
+config
+.git
+uploads
+robots.txt
+api
+dev
+docs

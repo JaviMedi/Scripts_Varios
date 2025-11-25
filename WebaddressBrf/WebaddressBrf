@@ -1,0 +1,69 @@
+#!/bin/bash
+
+ROJO="\e[31m"
+VERDE="\e[32m"
+AMARILLO="\e[33m"
+NC="\e[0m"
+MSG="Usage: $0 <webaddress> wordlist.txt"
+LOG=0
+
+
+
+fnc_check_url() {
+    code=$(curl -s -o /dev/null -w "%{http_code}" "$1")
+
+    if [[ "$code" == "200" ]]; then
+        echo -e "${VERDE} OK (200) ${NC}"
+    elif [[ "$code" == "404" ]]; then
+        echo -e "${ROJO} NOTFOUND (404) ${NC}"
+    else
+        echo -e "${AMARILLO} $code ${NC}"
+    fi
+
+}
+
+fnc_logs() {
+        curl "$URL/$p"
+}
+
+
+if [[ "$1" == "--logs" ]]; then
+    LOGS=1
+    shift
+fi
+
+if [ "$#" -lt 1 ]; then
+    echo "$MSG"
+    exit 1
+fi
+
+URL="$1"
+shift
+
+if [[ ! $URL =~ ^htt ]]; then
+    echo "Error: Webaddress must start with http:// or https://"
+    echo "$MSG"
+    exit 1
+fi
+if [ "$#" -ne 1 ]; then
+    echo "$MSG"
+    exit 1
+fi
+if [ ! -f "$1" ]; then
+    echo "Error: Wordlist file '$1' not found."
+    exit 1
+fi
+WORDLIST=$1
+shift
+
+while IFS= read -r p; do
+
+    [[ -z "$p" ]] && continue
+    echo -n "$p:  --> "
+    fnc_check_url "$URL/$p"
+
+    if [ "$LOGS" == "1" ]; then
+        fnc_logs "$URL/$p" &>> logs.txt
+    fi
+
+done < "$WORDLIST"

@@ -1,0 +1,12 @@
+# WebaddressBrf
+
+WebaddressBrf es una herramienta ligera para obtener rutas de direcciones web (URLs) mediante fuerza bruta.
+
+## Uso
+
+    ./WebaddressBrf [arg] <webaddress> wordlist.txt
+
+## Opciones
+
+Por defecto solo muestra código 200 o 400, para ver toda la salida de la web:
+    --logs: Registra toda la salida 
